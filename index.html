@@ -1,0 +1,146 @@
+<!DOCTYPE html> 
+<html lang="en"> <!-- Specifying the language for better accessibility -->
+  
+<head> 
+    <!-- This is where JavaScript and CSS files will be loaded, also information about the program -->
+    <meta charset="utf-8"> <!-- Used in all websites all around the world -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Important for responsive websites meaning it will display properly across all devices. -->
+    <title>Resume</title>
+    <style>
+        /* Styling for dropdown menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: #d463cd;
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropbtn:hover {
+            background-color: #bc73bc;
+        }
+
+        .home-content {
+            display: none;
+            position: absolute;
+            background-color: #f0e8ee;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .home-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .home-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .home-content { 
+             display: block;
+}
+
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h5 {
+            text-align: center;
+            color: #34495e;
+        }
+
+        .home,
+        .about,
+        .projects,
+        .contact {
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            text-align: justify;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        img {
+            display: block;
+            margin: 20px auto; /* Center the image horizontally */
+            max-width: 100%; /* Ensure image is responsive */
+            height: auto;
+            border-radius: 8px; /* Add a slight rounding to the corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease; /* Smooth transition for hover effect */
+        }
+        
+    </style>
+      
+</head> 
+<body>  
+    <!-- The code starts here; main content of the page.-->
+    <div class="home">
+        <div class="dropdown">
+            <button class="dropbtn">Home</button> 
+            <div class="home-content">
+            <a href="about.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="contacts.html">Contact Me</a>
+        </div>   
+    </div>
+    
+    </div>
+        
+    </div>
+
+    <div class="home" id="home">
+        <form id="home">
+            <a href="about.html"> <!-- Wrap image in a link that directs to About Me -->
+                <img src="PhotoMe.png" alt="Photo of Donye Richardson">
+            </a>
+            <p>
+                Welcome to my website! Here, you'll discover more about me and hopefully find something intriguing enough to reach out. Above is a picture of me—click on it to learn more!
+                <br>I'm passionate about front-end development and am always eager to learn and grow in this field. If you're interested in collaborating or have any opportunities to share, I'd love to connect!
+             </p>
+        </form>
+    </div>
+
+    </div>
+    <h5>by Donye Richardson</h5>
+
+</body>
+
+</html>
+<!-- 
+    Link tag: <a href="Add URL here"> 
+    target="_blank"; this opens the link as a new browser 
+    <img src="Add URL of the image"> to get image from the internet 
+    <img src="FileName" to get image from the computer 
+-->

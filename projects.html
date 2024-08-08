@@ -1,0 +1,161 @@
+<!DOCTYPE html> 
+<html lang="en"> <!-- Specifying the language for better accessibility -->
+  
+<head> 
+    <!-- This is where JavaScript and CSS files will be loaded, also information about the program -->
+    <meta charset="utf-8"> <!-- Used in all websites all around the world -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Important for responsive websites meaning it will display properly across all devices. -->
+    <title>Projects</title>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: #d463cd;
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropbtn:hover {
+            background-color: #bc73bc;
+        }
+
+        .home-content {
+            display: none;
+            position: absolute;
+            background-color: #f0e8ee42;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .home-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .home-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .home-content { 
+             display: block;
+}
+
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h5 {
+            text-align: center;
+            color: #34495e;
+        }
+
+        .home,
+        .about,
+        .projects,
+        .contact {
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            text-align: justify;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .photo-row {
+    display: flex;
+    gap: 20px; /* Adjust the gap between photos as needed */
+}
+
+.photo-item {
+    text-align: center;
+}
+
+.photo-item img {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Adjust based on your preferred image size */
+}
+
+.photo-item p {
+    margin: 10px 0 0;
+}
+img {
+            display: block;
+            margin: 20px auto; /* Center the image horizontally */
+            max-width: 100%; /* Ensure image is responsive */
+            height: auto;
+            border-radius: 8px; /* Add a slight rounding to the corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease; /* Smooth transition for hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="home">
+    <div class="dropdown">
+        <button class="dropbtn">Projects</button> 
+        <div class="home-content">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="contacts.html">Contact Me</a>
+    </div>   
+</div>
+</div>   
+</div>
+<div class="projects" id="project">
+    <form id="project">
+        <div class="photo-row">
+            <div class="photo-item">
+                <a href="index.html" target="_blank"> <!-- Wrap image in a link that directs to About Me -->
+                    <img src="image.png" alt="Doc">
+                </a>
+                <p>Personal Project: This is the website you are viewing. Used HTML and CSS</p>
+            </div>
+            <div class="photo-item">
+                <a href="SoftwareManagementSystem.html" target="_blank"> <!-- Open the link to the project using a new tab-->
+                    <img src="SoftwareManagementSystem.png" alt="SoftwareManagementSystem">
+                </a>
+                <p>Class Project: Team of 3 used HTML and CSS to create a Project Management System
+                </p>
+            </div>
+            <div class="photo-item">
+                <a herf="https://github.com/tom-n96/JsRestaurantApp.git" target="_blank">
+                <img src="Menu and floor view.png" alt="Menu">
+            </a>
+                <p>Class Project: Team of 4 used C# to create a Resturant System.</p>
+            </div>
+    </form>
+</div>
+</div>
+<h5>by Donye Richardson</h5>
+    </body>
+</html>
