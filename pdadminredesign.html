@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pgAdmin 4 Redesign</title>
+    <link rel="stylesheet" href="../css/pgadmin-desktop.css"/>
+    <link rel="stylesheet" href="otherprojects.css">
+    <style>
+        .header {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .content {
+            margin: 20px;
+        }
+        .form-input {
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .filter-bar {
+            margin-bottom: 20px;
+        }
+        body, html {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 14px;
+            margin: 0 10px;
+            background-color: #e9f8ff;
+        }
+
+        .bg {
+            background-image: url("../../assets/welcome_logo.svg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            overflow: hidden;
+            display: flex;
+            -webkit-app-region: drag;
+        }
+
+        .loader-text {
+            margin-top: auto;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+        }
+
+        @media screen and (forced-colors: active) {
+            body {
+                forced-color-adjust: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="navigation">
+        <button class="nav-button prev" onclick="window.location.href='pgAdmin.html'">&larr; </button>
+    </div>
+    <div class="header">Configuration</div>
+
+    <div class="form-group">
+        <label for="fixedPortCheck">Fixed Port Number?</label>
+        <input type="checkbox" id="fixedPortCheck" class="form-check-input">
+        <span class="tooltip">ℹ
+        <span class="tooltiptext">Enable this to set a specific port number.</span>
+      </span>
+    </div>
+    <div class="form-group">
+        <label for="portNo">Port Number:</label>
+        <input type="number" id="portNo" class="form-input" min="1025" max="65535" disabled>
+    </div>
+    <div class="form-group">
+        <label for="timeout">Connection Timeout (seconds):</label>
+        <input type="number" id="timeout" class="form-input" min="10" max="600">
+    </div>
+    <div class="footer">
+        <button id="resetDefaults" class="btn">Reset to Default</button>
+        <button id="saveConfig" class="btn btn-primary" disabled>Save</button>
+    </div>
+</div>
+<div class="content">
+    <div class="header">Log Viewer</div>
+    <div class="filter-bar">
+        <label for="logFilter">Filter by Severity:</label>
+        <select id="logFilter" class="form-input">
+            <option value="">All</option>
+            <option value="INFO">INFO</option>
+            <option value="WARN">WARN</option>
+            <option value="ERROR">ERROR</option>
+        </select>
+        <input type="text" id="logSearch" class="form-input" placeholder="Search logs...">
+    </div>
+    <textarea id="logContent" class="form-input" readonly style="min-height: 300px;"></textarea>
+    <div class="footer">
+        <button id="reloadLogs" class="btn btn-primary">Reload</button>
+    </div>
+</div>
+<div class="bg">
+    <span id="loader-text-status" class="loader-text">Waiting for pgAdmin 4 to start...</span>
+</div>
+<script>
+    document.getElementById('fixedPortCheck').addEventListener('change', function() {
+        const isChecked = this.checked;
+        console.debug('Fixed Port Checkbox changed:', isChecked);
+        document.getElementById('portNo').disabled = !isChecked;
+        document.getElementById('saveConfig').disabled = false;
+    });
+
+    document.getElementById('resetDefaults').addEventListener('click', function() {
+        console.debug('Resetting to defaults.');
+        document.getElementById('fixedPortCheck').checked = false;
+        document.getElementById('portNo').value = '';
+        document.getElementById('timeout').value = 90;
+        document.getElementById('saveConfig').disabled = true;
+        displayLog('Settings reset to default values.');
+    });
+
+    document.getElementById('saveConfig').addEventListener('click', function() {
+        const port = parseInt(document.getElementById('portNo').value, 10);
+        const timeout = parseInt(document.getElementById('timeout').value, 10);
+
+        if (isNaN(port) || port < 1025 || port > 65535) {
+            alert('Please enter a valid port number between 1025 and 65535.');
+            return;
+        }
+
+        if (isNaN(timeout) || timeout < 10 || timeout > 600) {
+            alert('Please enter a valid timeout value between 10 and 600 seconds.');
+            return;
+        }
+
+        localStorage.setItem('port', port);
+        localStorage.setItem('timeout', timeout);
+
+        alert('Configuration saved successfully!');
+
+        displayLog(`Configuration saved - Port: ${port}, Timeout: ${timeout}`);
+    });
+
+    document.getElementById('reloadLogs').addEventListener('click', async function() {
+        const filter = document.getElementById('logFilter').value;
+        const searchQuery = document.getElementById('logSearch').value.trim().toLowerCase();
+        console.debug('Reloading logs with filter:', filter, 'and search query:', searchQuery);
+
+        try {
+            let logs = await window.electronUI.readServerLog();
+            if (filter) {
+                logs = logs.split('\n').filter(log => log.includes(filter)).join('\n');
+            }
+            if (searchQuery) {
+                logs = logs.split('\n').filter(log => log.toLowerCase().includes(searchQuery)).join('\n');
+            }
+            document.getElementById('logContent').value = logs || 'No logs available.';
+        } catch (error) {
+            console.error('Error reading logs:', error);
+            displayLog('Error reading logs. Please try again.');
+        }
+    });
+
+    function displayLog(message) {
+        console.debug('Log:', message);
+        const logContent = document.getElementById('logContent');
+        logContent.value += message + '\n';
+    }
+</script>
+</body>
+</html>
